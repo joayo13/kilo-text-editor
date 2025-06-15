@@ -15,7 +15,8 @@ void enableRawMode() {
     atexit(disableRawMode);
 
     struct termios raw = orig_termios;
-    raw.c_lflag &= ~(ECHO | ICANON | ISIG);
+    raw.c_iflag &= ~(IXON);
+    raw.c_lflag &= ~(ECHO | ICANON | IEXTEN | ISIG);
 
     tcsetattr(STDIN_FILENO, TCSAFLUSH, &raw);
 }
@@ -30,7 +31,7 @@ int main() {
         }
         else {
             printf("%d ('%c')\n", c, c);
-        }
+        } 
     }
     return 0;
 }
